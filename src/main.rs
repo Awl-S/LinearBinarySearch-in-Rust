@@ -24,7 +24,6 @@ fn main() {
     let sizes = [10, 100, 1000, 10_000, 100_000, 1_000_000, 10_000_000];
     let mut target = utils::generate_target();
     let mut version = 1;
-    let first_target = target;
     println!("Target: {:?}\n", target);
 
     #[cfg(debug_assertions)]
@@ -35,10 +34,8 @@ fn main() {
 
     for _ in 0..10 {
         for &size in &sizes {
-            if version == 5  {
+            if version == 10  {
                 target = 101;
-            } else if version == 6 {
-                target = first_target;
             }
             utils::run_search(size, target, &mut csv_file, version);
         }

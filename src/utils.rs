@@ -95,8 +95,8 @@ pub fn run_search(size: u32, target: i32, csv_file: &mut File, version: u32) {
     #[cfg(debug_assertions)]
     let mut timer = Timer::new();
     timer.start();
-    // array.sort();
-    array.sort_unstable();
+    array.sort();
+    // array.sort_unstable();
     let sort_time = timer.get_elapsed();
     println!("Elapsed time Sorting, use .sort(): {:.6} ms", sort_time);
 
