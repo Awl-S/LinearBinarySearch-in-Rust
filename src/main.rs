@@ -3,9 +3,15 @@ mod linear_search;
 mod utils;
 
 fn main() {
-    let sizes = [10, 100, 1000, 10_000]; // Размеры массивов для тестирования
-    let target = 50;
+    let sizes = [10, 100, 1000, 10_000, 100_000, 1_000_000];
 
+    let mut target = utils::generate_target();
+
+    if cfg!(debug_assertions) {
+        target = 69;
+    }
+
+    println!("Target: {:?}\n", target);
     for &size in &sizes {
         let mut array = utils::generate_random_array(size);
 
@@ -28,6 +34,6 @@ fn main() {
             size, binary_time, binary_result
         );
 
-        println!("Allocated memory for array: {} bytes\n", (size as usize) * std::mem::size_of::<i32>());
+        println!("Allocated memory for array: {} bytes\n", (size as usize) * size_of::<i32>());
     }
 }
