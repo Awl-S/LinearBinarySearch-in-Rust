@@ -61,7 +61,7 @@ impl Timer {
 
 #[cfg(debug_assertions)]
 pub fn write_csv_header(csv_file: &mut File) {
-    writeln!(csv_file, "Version,Size,Linear Time (ms),Binary Time (ms)")
+    writeln!(csv_file, "Version,Size,Linear Time (ms),Binary Time (ms),Sorting Time (ms)")
         .expect("Unable to write to CSV file");
 }
 
@@ -71,12 +71,13 @@ pub fn write_to_csv(
     size: u32,
     linear_time: f64,
     binary_time: f64,
+    sort_time: f64,
     version: u32,
 ) {
     writeln!(
         csv_file,
-        "{},{},{:.6},{:.6}",
-        version, size, linear_time, binary_time
+        "{},{},{:.6},{:.6},{:.6}",
+        version, size, linear_time, binary_time, sort_time
     )
         .expect("Unable to write to CSV file");
 }
@@ -91,17 +92,23 @@ pub fn run_search(size: u32, target: i32, csv_file: &mut File, version: u32) {
         size.to_formatted_string(&Locale::fr), linear_time, linear_result
     );
 
-    array.sort();
+    #[cfg(debug_assertions)]
+    let mut timer = Timer::new();
+    timer.start();
+    // array.sort();
+    array.sort_unstable();
+    let sort_time = timer.get_elapsed();
+    println!("Elapsed time Sorting, use .sort(): {:.6} ms", sort_time);
 
     let (binary_time, binary_result) = perform_binary_search(&array, target);
     println!(
         "Binary search time for size {}: {:.6} ms; Result: {:?}",
-        size.to_formatted_string(&Locale::fr), binary_time, binary_result
+        size.to_formatted_string(&Locale::fr), binary_time, binary_result,
     );
 
     let memory_usage = (size as usize) * size_of::<i32>();
     println!("Allocated memory for array: {} bytes\n", memory_usage);
 
     #[cfg(debug_assertions)]
-    write_to_csv(csv_file, size, linear_time, binary_time, version);
+    write_to_csv(csv_file, size, linear_time, binary_time, sort_time, version);
 }

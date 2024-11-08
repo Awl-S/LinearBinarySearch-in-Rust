@@ -21,14 +21,14 @@ fn perform_binary_search(array: &[i32], target: i32) -> (f64, Option<usize>) {
 }
 
 fn main() {
-    let sizes = [10, 100, 1000, 10_000, 100_000];
+    let sizes = [10, 100, 1000, 10_000, 100_000, 1_000_000, 10_000_000];
     let mut target = utils::generate_target();
-    let mut version = 1; // Start version from 1
+    let mut version = 1;
     let first_target = target;
     println!("Target: {:?}\n", target);
 
     #[cfg(debug_assertions)]
-    let mut csv_file = File::create("results.csv").expect("Unable to create CSV file");
+    let mut csv_file = File::create("data.csv").expect("Unable to create CSV file");
 
     #[cfg(debug_assertions)]
     utils::write_csv_header(&mut csv_file);
