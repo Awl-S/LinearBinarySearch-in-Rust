@@ -1,7 +1,7 @@
 
 pub fn binary_search(arr: &[i32], target: i32) -> Option<usize> {
     let mut left = 0;
-    let mut right = arr.len() - 1;
+    let mut right = arr.len()-1;
 
     while left < right {
         let mid = (left + right) / 2;
